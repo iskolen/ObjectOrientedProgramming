@@ -25,21 +25,29 @@ int main(int argc, char* argv[])
 	int numberStr = 0;
 	bool foundText = false;
 
-	while (getline(inputFile, str))
+	if (inputFile.is_open())
 	{
-		numberStr++;
-
-		if (str.find(searchStr) != std::string::npos)
+		while (getline(inputFile, str))
 		{
-			std::cout << numberStr << std::endl;
-			foundText = true;
+			numberStr++;
+
+			if (str.find(searchStr) != std::string::npos)
+			{
+				std::cout << numberStr << std::endl;
+				foundText = true;
+			}
 		}
+		if (foundText == false)
+		{
+			std::cout << "Text not found!";
+			return 1;
+		}
+
+		return 0;
 	}
-	if (foundText == false)
+	else
 	{
-		std::cout << "Text not found!";
+		std::cout << "The file does not exist!";
 		return 1;
 	}
-
-	return 0;
 }

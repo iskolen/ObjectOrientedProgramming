@@ -96,6 +96,10 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>test.bat "$(TargetPath)"</Command>
+      <Message>Running Tests</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -111,6 +115,12 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>test.bat "$(TargetPath)"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Running Tests</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -154,7 +164,19 @@
     <ClCompile Include="findtext.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="findtext.h" />
+    <None Include="test.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Empty-out.txt" />
+    <Text Include="Empty.txt" />
+    <Text Include="NoFileExists-out.txt" />
+    <Text Include="NoFileName-out.txt" />
+    <Text Include="NoSearchString-out.txt" />
+    <Text Include="NoSearchString.txt" />
+    <Text Include="PositiveTest-out.txt" />
+    <Text Include="PositiveTest.txt" />
+    <Text Include="TwoSearchStringInOne-out.txt" />
+    <Text Include="TwoSearchStringInOne.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

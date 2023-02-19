@@ -1,0 +1,2 @@
+Not a digit entered!
+The number must be in the range from 0 to 2^32-1

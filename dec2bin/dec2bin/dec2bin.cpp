@@ -3,7 +3,7 @@
 #include <string>
 #include <limits>
 
-void ToBinary(unsigned int n)
+void ToBinary(unsigned long long n)
 {
 	if (n / 2 != 0) 
 		ToBinary(n / 2);
@@ -21,6 +21,7 @@ void СheckNegative(std::string inputNum)
 {
 	if (inputNum[0] == '-')
 	{
+		std::cout << "A negative number is entered!" << std::endl;
 		InputCondition();
 	}
 }
@@ -29,6 +30,7 @@ void CheckNotDigits(std::string inputNum)
 {
 	if (inputNum.find_first_not_of("0123456789") != UINT_MAX)
 	{
+		std::cout << "Not a digit entered!" << std::endl;
 		InputCondition();
 	}
 }
@@ -37,6 +39,7 @@ void CheckMax(unsigned long long inputNum)
 {
 	if (inputNum > UINT_MAX)
 	{
+		std::cout << "Exceeded the maximum value!" << std::endl;
 		InputCondition();
 	}
 }

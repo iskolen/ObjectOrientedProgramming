@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{17e27350-b3cc-422a-857d-2f2631439f94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="findtext.cpp">
@@ -20,8 +23,40 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="findtext.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
+    <None Include="test.bat">
+      <Filter>Исходные файлы</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Empty.txt">
+      <Filter>Tests</Filter>
+    </Text>
+    <Text Include="Empty-out.txt">
+      <Filter>Tests</Filter>
+    </Text>
+    <Text Include="PositiveTest.txt">
+      <Filter>Tests</Filter>
+    </Text>
+    <Text Include="PositiveTest-out.txt">
+      <Filter>Tests</Filter>
+    </Text>
+    <Text Include="TwoSearchStringInOne.txt">
+      <Filter>Tests</Filter>
+    </Text>
+    <Text Include="TwoSearchStringInOne-out.txt">
+      <Filter>Tests</Filter>
+    </Text>
+    <Text Include="NoFileName-out.txt">
+      <Filter>Tests</Filter>
+    </Text>
+    <Text Include="NoSearchString.txt">
+      <Filter>Tests</Filter>
+    </Text>
+    <Text Include="NoSearchString-out.txt">
+      <Filter>Tests</Filter>
+    </Text>
+    <Text Include="NoFileExists-out.txt">
+      <Filter>Tests</Filter>
+    </Text>
   </ItemGroup>
 </Project>
