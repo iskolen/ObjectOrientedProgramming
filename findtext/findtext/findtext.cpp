@@ -3,51 +3,61 @@
 #include <fstream>
 #include <string>
 
+CONST char RUSSIANLANGUAGE[8] = "Russian";
+CONST int RUSSIANENCODING = 1251;
+CONST int FILEPARAMETER = 1;
+CONST int SEARCHSTRINGPARAMETER = 2;
+CONST int COMPLETEPROGRAM = 0;
+CONST int ERRORNOTEXTFOUND = 1;
+CONST int ERRORNONAMEFILE = 2;
+CONST int ERRORNOSEARCHSTRING = 3;
+CONST int ERRORNOFILE = 4;
+CONST std::string MESSAGEERRORNONAMEFILE = "No file name entered!";
+CONST std::string MESSAGEERRORNOSEARCHSTRING = "No search string entered!";
+CONST std::string MESSAGEERRORNOFILE = "The file does not exist!";
+CONST std::string MESSAGEERRORNOTEXTFOUND = "Text not found!";
+
 int main(int argc, char* argv[])
 {
-	setlocale(LC_ALL, "Russian");
-	SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
+	setlocale(LC_ALL, RUSSIANLANGUAGE);
+	SetConsoleCP(RUSSIANENCODING);
+	SetConsoleOutputCP(RUSSIANENCODING);
 
-	if (argv[1] == NULL)
+	if (argv[FILEPARAMETER] == NULL)
 	{
-		std::cout << "No file name entered!";
-		return 1;
+		std::cout << MESSAGEERRORNONAMEFILE;
+		return ERRORNONAMEFILE;
 	}
-	if (argv[2] == NULL)
+	if (argv[SEARCHSTRINGPARAMETER] == NULL)
 	{
-		std::cout << "No search string entered!";
-		return 1;
+		std::cout << MESSAGEERRORNOSEARCHSTRING;
+		return ERRORNOSEARCHSTRING;
 	}
 
-	std::ifstream inputFile(argv[1]);
-	std::string searchStr(argv[2]), str;
+	std::ifstream inputFile(argv[FILEPARAMETER]);
+	std::string searchStr(argv[SEARCHSTRINGPARAMETER]), str;
 	int numberStr = 0;
 	bool foundText = false;
 
-	if (inputFile.is_open())
+	if (!inputFile.is_open())
 	{
-		while (getline(inputFile, str))
-		{
-			numberStr++;
-
-			if (str.find(searchStr) != std::string::npos)
-			{
-				std::cout << numberStr << std::endl;
-				foundText = true;
-			}
-		}
-		if (foundText == false)
-		{
-			std::cout << "Text not found!";
-			return 1;
-		}
-
-		return 0;
+		std::cout << MESSAGEERRORNOFILE;
+		return ERRORNOFILE;
 	}
-	else
+	while (getline(inputFile, str))
 	{
-		std::cout << "The file does not exist!";
-		return 1;
+		numberStr++;
+		if (str.find(searchStr) != std::string::npos)
+		{
+			std::cout << numberStr << std::endl;
+			foundText = true;
+		}
 	}
+	if (foundText == false)
+	{
+		std::cout << MESSAGEERRORNOTEXTFOUND;
+		return ERRORNOTEXTFOUND;
+	}
+
+	return COMPLETEPROGRAM;
 }

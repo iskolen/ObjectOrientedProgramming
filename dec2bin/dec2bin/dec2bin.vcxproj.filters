@@ -34,9 +34,6 @@
     <Text Include="MaxInt-out.txt">
       <Filter>Tests</Filter>
     </Text>
-    <Text Include="253-out.txt">
-      <Filter>Tests</Filter>
-    </Text>
     <Text Include="NoParameter-out.txt">
       <Filter>Tests</Filter>
     </Text>
@@ -47,6 +44,9 @@
       <Filter>Tests</Filter>
     </Text>
     <Text Include="MaxIntExceed-out.txt">
+      <Filter>Tests</Filter>
+    </Text>
+    <Text Include="PositiveTest-out.txt">
       <Filter>Tests</Filter>
     </Text>
   </ItemGroup>

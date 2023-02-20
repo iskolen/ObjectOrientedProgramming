@@ -15,10 +15,10 @@ if ERRORLEVEL 1 goto err
 fc %OUT% MaxInt-out.txt
 if ERRORLEVEL 1 goto err
 
-::Проверка обычного значения
+::Позитивный тест
 %PROGRAM% 253 > %OUT%
 if ERRORLEVEL 1 goto err
-fc %OUT% 253-out.txt
+fc %OUT% PositiveTest-out.txt
 if ERRORLEVEL 1 goto err
 
 ::Проверка строки
