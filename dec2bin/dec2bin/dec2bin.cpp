@@ -1,63 +1,94 @@
-﻿#include <iostream>
+﻿#include <windows.h>
+#include <iostream>
 #include <fstream>
 #include <string>
 #include <limits>
 
+CONST std::string MESSAGE_ERROR_NO_PARAMETER = "The input number is not entered!";
+CONST std::string MESSAGE_ERROR_NEGATIVE = "A negative number is entered!";
+CONST std::string MESSAGE_ERROR_NOT_DIGIT = "Entered not a digit!";
+CONST std::string MESSAGE_ERROR_EXCEEDED = "Exceeded the maximum value!";
+CONST int ERROR_NO_PARAMETER = 1;
+CONST int ERROR_NEGATIVE = 2;
+CONST int ERROR_NOT_DIGIT = 3;
+CONST int ERROR_EXCEEDED = 4;
+CONST int FIRST_CHAR = 0;
+CONST int DIGIT_PARAMETER = 1;
+CONST char MINUS = '-';
+CONST char ZERO = '0';
+CONST char NINE = '9';
+
 void ToBinary(unsigned long long n)
 {
-	if (n / 2 != 0) 
+	if (n / 2 != 0)
 		ToBinary(n / 2);
 
 	std::cout << n % 2;
 }
 
-void InputCondition()
+int IsNegative(std::string inputNum)
 {
-	std::cout << "The number must be in the range from 0 to 2^32-1";
-	exit(1);
-}
-
-void СheckNegative(std::string inputNum)
-{
-	if (inputNum[0] == '-')
+	if (inputNum[FIRST_CHAR] == MINUS)
 	{
-		std::cout << "A negative number is entered!" << std::endl;
-		InputCondition();
+		std::cout << MESSAGE_ERROR_NEGATIVE;
+		return ERROR_NEGATIVE;
 	}
+	return 0;
 }
 
-void CheckNotDigits(std::string inputNum)
+int IsNotDigits(std::string inputNum)
 {
-	if (inputNum.find_first_not_of("0123456789") != UINT_MAX)
+	for (int i = 0; i < inputNum.size(); i++) 
 	{
-		std::cout << "Not a digit entered!" << std::endl;
-		InputCondition();
+		if (inputNum[i] < ZERO || inputNum[i] > NINE)
+		{
+			std::cout << MESSAGE_ERROR_NOT_DIGIT;
+			return ERROR_NOT_DIGIT;
+		}
 	}
+	return 0;
 }
 
-void CheckMax(unsigned long long inputNum)
+int IsMax(unsigned long long inputNum)
 {
 	if (inputNum > UINT_MAX)
 	{
-		std::cout << "Exceeded the maximum value!" << std::endl;
-		InputCondition();
+		std::cout << MESSAGE_ERROR_EXCEEDED;
+		return ERROR_EXCEEDED;
 	}
+	return 0;
+}
+
+bool CheckError(int &errorCode, unsigned long long &inputNum, std::string &inputNumStr)
+{
+	errorCode = IsNegative(inputNumStr);
+	if (errorCode != 0)
+		return true;
+	errorCode = IsNotDigits(inputNumStr);
+	if (errorCode != 0)
+		return true;
+	errorCode = IsMax(inputNum);
+	if (errorCode != 0)
+		return true;
+	return false;
 }
 
 int main(int argc, char* argv[])
 {
-	if (argv[1] == NULL)
+	if (argv[DIGIT_PARAMETER] == NULL)
 	{
-		std::cout << "The input number is not entered!";
-		return 1;
+		std::cout << MESSAGE_ERROR_NO_PARAMETER;
+		return ERROR_NO_PARAMETER;
 	}
 
-	std::string inputNumStr(argv[1]);
-	unsigned long long inputNum = atoll(argv[1]);
+	std::string inputNumStr(argv[DIGIT_PARAMETER]);
+	unsigned long long inputNum = atoll(argv[DIGIT_PARAMETER]);
+	int errorCode = 0;
+	bool error = false;
 
-	СheckNegative(inputNumStr);
-	CheckNotDigits(inputNumStr);
-	CheckMax(inputNum);
+	error = CheckError(errorCode, inputNum, inputNumStr);
+	if (error)
+		return errorCode;
 
 	ToBinary(inputNum);
 
