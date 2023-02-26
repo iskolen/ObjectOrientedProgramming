@@ -30,7 +30,7 @@ std::vector <double> ProcessArray(std::vector <double> numbers)
 	double min = *min_element(numbers.begin(), numbers.end());
 
 	for (auto &number : numbers)
-		number = number * max / min;
+		number = (number * max) / min;
 
 	return numbers;
 }

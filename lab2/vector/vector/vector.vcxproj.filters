@@ -28,10 +28,34 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="EmptyVector-out.txt">
+    <Text Include="MinValueZero-out.txt">
       <Filter>Исходные файлы\Tests</Filter>
     </Text>
-    <Text Include="MinValueZero-out.txt">
+    <Text Include="MinValueZero.txt">
+      <Filter>Исходные файлы\Tests</Filter>
+    </Text>
+    <Text Include="Empty.txt">
+      <Filter>Исходные файлы\Tests</Filter>
+    </Text>
+    <Text Include="Empty-out.txt">
+      <Filter>Исходные файлы\Tests</Filter>
+    </Text>
+    <Text Include="PositiveNumbers.txt">
+      <Filter>Исходные файлы\Tests</Filter>
+    </Text>
+    <Text Include="PositiveNumbers-out.txt">
+      <Filter>Исходные файлы\Tests</Filter>
+    </Text>
+    <Text Include="PositiveNegativeNumbers.txt">
+      <Filter>Исходные файлы\Tests</Filter>
+    </Text>
+    <Text Include="PositiveNegativeNumbers-out.txt">
+      <Filter>Исходные файлы\Tests</Filter>
+    </Text>
+    <Text Include="RealNumbers.txt">
+      <Filter>Исходные файлы\Tests</Filter>
+    </Text>
+    <Text Include="RealNumbers-out.txt">
       <Filter>Исходные файлы\Tests</Filter>
     </Text>
   </ItemGroup>

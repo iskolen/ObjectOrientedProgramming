@@ -169,8 +169,16 @@
     <None Include="test.bat" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="EmptyVector-out.txt" />
+    <Text Include="Empty.txt" />
+    <Text Include="Empty-out.txt" />
     <Text Include="MinValueZero-out.txt" />
+    <Text Include="MinValueZero.txt" />
+    <Text Include="PositiveNegativeNumbers-out.txt" />
+    <Text Include="PositiveNegativeNumbers.txt" />
+    <Text Include="PositiveNumbers-out.txt" />
+    <Text Include="PositiveNumbers.txt" />
+    <Text Include="RealNumbers-out.txt" />
+    <Text Include="RealNumbers.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
