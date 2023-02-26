@@ -13,41 +13,10 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Tests">
-      <UniqueIdentifier>{c21fea5d-d625-4b2d-ba3a-70c134f5893a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dec2bin.cpp">
+    <ClCompile Include="vector.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="test.bat">
-      <Filter>Исходные файлы</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ZeroInt-out.txt">
-      <Filter>Tests</Filter>
-    </Text>
-    <Text Include="MaxInt-out.txt">
-      <Filter>Tests</Filter>
-    </Text>
-    <Text Include="NoParameter-out.txt">
-      <Filter>Tests</Filter>
-    </Text>
-    <Text Include="String-out.txt">
-      <Filter>Tests</Filter>
-    </Text>
-    <Text Include="NegativeInt-out.txt">
-      <Filter>Tests</Filter>
-    </Text>
-    <Text Include="MaxIntExceed-out.txt">
-      <Filter>Tests</Filter>
-    </Text>
-    <Text Include="PositiveTest-out.txt">
-      <Filter>Tests</Filter>
-    </Text>
   </ItemGroup>
 </Project>

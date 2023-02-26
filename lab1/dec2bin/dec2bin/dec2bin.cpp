@@ -8,6 +8,7 @@ CONST std::string MESSAGE_ERROR_NO_PARAMETER = "The input number is not entered!
 CONST std::string MESSAGE_ERROR_NEGATIVE = "A negative number is entered!";
 CONST std::string MESSAGE_ERROR_NOT_DIGIT = "Entered not a digit!";
 CONST std::string MESSAGE_ERROR_EXCEEDED = "Exceeded the maximum value!";
+CONST std::string EMPTY_STRING = "";
 CONST int ERROR_NO_PARAMETER = 1;
 CONST int ERROR_NEGATIVE = 2;
 CONST int ERROR_NOT_DIGIT = 3;
@@ -18,12 +19,14 @@ CONST char MINUS = '-';
 CONST char ZERO = '0';
 CONST char NINE = '9';
 
-void ToBinary(unsigned long long n)
+std::string ToBinary(unsigned long long a, std::string &binaryDigit)
 {
-	if (n / 2 != 0)
-		ToBinary(n / 2);
-
-	std::cout << n % 2;
+	if (a)
+	{
+		ToBinary(a >> 1, binaryDigit);
+		binaryDigit += std::to_string(a & 1);
+	}
+	return binaryDigit;
 }
 
 int IsNegative(std::string inputNum)
@@ -82,6 +85,7 @@ int main(int argc, char* argv[])
 	}
 
 	std::string inputNumStr(argv[DIGIT_PARAMETER]);
+	std::string binaryDigit = EMPTY_STRING;
 	unsigned long long inputNum = atoll(argv[DIGIT_PARAMETER]);
 	int errorCode = 0;
 	bool error = false;
@@ -89,8 +93,8 @@ int main(int argc, char* argv[])
 	error = CheckError(errorCode, inputNum, inputNumStr);
 	if (error)
 		return errorCode;
-
-	ToBinary(inputNum);
+	binaryDigit = ToBinary(inputNum, binaryDigit);
+	std::cout << binaryDigit;
 
 	return 0;
 }

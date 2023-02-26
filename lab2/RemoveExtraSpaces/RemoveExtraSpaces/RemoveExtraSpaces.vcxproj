@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{CE89FAEE-A428-40D4-A0A8-D7687AA340D1}</ProjectGuid>
+    <ProjectGuid>{F78A8668-559A-4B82-ADCF-9AF5FD164E61}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>dec2bin</RootNamespace>
+    <RootNamespace>RemoveExtraSpaces</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -96,12 +96,6 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>test.bat $(TargetPath)</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Running Tests</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -117,12 +111,6 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>test.bat $(TargetPath)</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Running Tests</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -163,19 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="dec2bin.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="test.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="PositiveTest-out.txt" />
-    <Text Include="MaxInt-out.txt" />
-    <Text Include="MaxIntExceed-out.txt" />
-    <Text Include="NegativeInt-out.txt" />
-    <Text Include="NoParameter-out.txt" />
-    <Text Include="String-out.txt" />
-    <Text Include="ZeroInt-out.txt" />
+    <ClCompile Include="RemoveExtraSpaces.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
