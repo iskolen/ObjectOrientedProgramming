@@ -13,10 +13,26 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\Tests">
+      <UniqueIdentifier>{15b2ccc7-1cdf-41d7-8237-4c57c2c0f764}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="vector.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.bat">
+      <Filter>Исходные файлы</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="EmptyVector-out.txt">
+      <Filter>Исходные файлы\Tests</Filter>
+    </Text>
+    <Text Include="MinValueZero-out.txt">
+      <Filter>Исходные файлы\Tests</Filter>
+    </Text>
   </ItemGroup>
 </Project>
