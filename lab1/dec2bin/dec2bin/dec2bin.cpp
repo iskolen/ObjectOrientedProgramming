@@ -19,12 +19,12 @@ CONST char MINUS = '-';
 CONST char ZERO = '0';
 CONST char NINE = '9';
 
-std::string ToBinary(unsigned long long a, std::string &binaryDigit)
+std::string ToBinary(unsigned long long digit, std::string &binaryDigit)
 {
-	if (a)
+	if (digit)
 	{
-		ToBinary(a >> 1, binaryDigit);
-		binaryDigit += std::to_string(a & 1);
+		ToBinary(digit >> 1, binaryDigit);
+		binaryDigit += std::to_string(digit & 1);
 	}
 	return binaryDigit;
 }
@@ -97,4 +97,5 @@ int main(int argc, char* argv[])
 	std::cout << binaryDigit;
 
 	return 0;
-}
+}// Добавить в вывод ошибки bin2dec.exe <число в десятичной системе>
+// Обработать 0

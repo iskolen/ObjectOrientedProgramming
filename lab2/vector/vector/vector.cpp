@@ -11,7 +11,7 @@ CONST int ROUND_THREE_DIGITS = 1000;
 CONST int ERROR_EMPTY_VECTOR = 1;
 CONST int ERROR_MIN_ZERO = 2;
 
-std::vector <double> ReadArray(std::vector <double> numbers)
+std::vector <double> ReadArray(std::vector <double> &numbers)//Ссылка на поток
 {
 	while (!std::cin.eof())
 	{
@@ -23,25 +23,26 @@ std::vector <double> ReadArray(std::vector <double> numbers)
 	}
 	return numbers;
 }
-
-std::vector <double> ProcessArray(std::vector <double> numbers)
+//Написать unit-тесты для каждой функции
+std::vector <double> ProcessArray(std::vector <double> &numbers)
 {
 	double max = *max_element(numbers.begin(), numbers.end());
 	double min = *min_element(numbers.begin(), numbers.end());
-
+	//Использовать алгоритм STL(transform)
 	for (auto &number : numbers)
 		number = (number * max) / min;
 
 	return numbers;
 }
 
-void PrintArray(std::vector <double> numbers)
+void PrintArray(std::vector <double> &numbers)
 {
+	//Использовать алгоритм STL(copy)
 	for (auto number : numbers)
 		std::cout << round(number * ROUND_THREE_DIGITS) / ROUND_THREE_DIGITS << " ";
-}
+} //set_precision
 
-int IsEmptyVector(std::vector <double> numbers)
+int IsEmptyVector(std::vector <double> &numbers)
 {
 	if (size(numbers) == 0)
 	{
@@ -51,7 +52,7 @@ int IsEmptyVector(std::vector <double> numbers)
 	return 0;
 }
 
-int IsMinValueZero(std::vector <double> numbers)
+int IsMinValueZero(std::vector <double> &numbers)
 {
 	double min = *min_element(numbers.begin(), numbers.end());
 	if (min == 0)
@@ -62,7 +63,7 @@ int IsMinValueZero(std::vector <double> numbers)
 	return 0;
 }
 
-bool CheckError(int &errorCode, std::vector <double> numbers)
+bool CheckError(int &errorCode, std::vector <double> &numbers)
 {
 	errorCode = IsEmptyVector(numbers);
 	if (errorCode != 0)

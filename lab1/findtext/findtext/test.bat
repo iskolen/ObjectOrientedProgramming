@@ -3,12 +3,6 @@
 set PROGRAM="%~1"
 set OUT="%TEMP%\out.txt"
 
-echo "Checking an empty file"
-%PROGRAM% Empty.txt 1 > %OUT%
-if NOT ERRORLEVEL 1 goto err
-fc %OUT% Empty-out.txt
-if ERRORLEVEL 1 goto err
-
 echo "Search for the string 'asd' in the file where they are present"
 %PROGRAM% PositiveTest.txt asd > %OUT%
 if NOT ERRORLEVEL 0 goto err
@@ -19,6 +13,12 @@ echo "If the search string is present twice on the same line"
 %PROGRAM% TwoSearchStringInOne.txt asd > %OUT%
 if NOT ERRORLEVEL 0 goto err
 fc %OUT% TwoSearchStringInOne-out.txt
+if ERRORLEVEL 1 goto err
+
+echo "Checking an empty file"
+%PROGRAM% Empty.txt 1 > %OUT%
+if NOT ERRORLEVEL 1 goto err
+fc %OUT% Empty-out.txt
 if ERRORLEVEL 1 goto err
 
 echo "If no file name is entered"

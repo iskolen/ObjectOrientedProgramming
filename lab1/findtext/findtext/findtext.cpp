@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
+//Сделать проверку пустой строки ""
 CONST char RUSSIAN_LANGUAGE[8] = "Russian";
 CONST int RUSSIAN_ENCODING = 1251;
 CONST int FILE_PARAMETER = 1;
