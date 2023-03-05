@@ -1,1 +1,2 @@
 A negative number is entered!
+The rule of entry is - bin2dec.exe <binary number>
