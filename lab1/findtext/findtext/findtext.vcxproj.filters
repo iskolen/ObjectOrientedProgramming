@@ -58,5 +58,8 @@
     <Text Include="NoFileExists-out.txt">
       <Filter>Tests</Filter>
     </Text>
+    <Text Include="EmptyLine-out.txt">
+      <Filter>Tests</Filter>
+    </Text>
   </ItemGroup>
 </Project>

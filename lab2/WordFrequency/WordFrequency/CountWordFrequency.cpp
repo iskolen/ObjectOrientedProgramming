@@ -9,8 +9,8 @@ std::map<std::string, int> CountWordFrequency(std::istream& input)
 	std::string word;
 	while (input >> word)
 	{
-		std::string lowered_word = ToLower(word);
-		++frequency[lowered_word];
+		ToLower(word);
+		++frequency[word];
 	}
 
 	return frequency;

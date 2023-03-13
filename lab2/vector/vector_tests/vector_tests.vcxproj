@@ -157,7 +157,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\vector\GetErrorCode.cpp" />
     <ClCompile Include="..\vector\PrintVector.cpp" />
     <ClCompile Include="..\vector\ProcessVector.cpp" />
     <ClCompile Include="..\vector\ReadVector.cpp" />

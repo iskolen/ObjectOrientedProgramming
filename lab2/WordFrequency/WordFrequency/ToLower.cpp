@@ -1,9 +1,8 @@
 #include "Frequency.h"
 #include <algorithm>
 
-std::string ToLower(const std::string& str)
+void ToLower(std::string& str)
 {
-	std::string result(str);
-	std::transform(result.begin(), result.end(), result.begin(), ::tolower);
-	return result;
+	for (char& ch : str)
+		ch = ::tolower(static_cast<unsigned char>(ch));
 }

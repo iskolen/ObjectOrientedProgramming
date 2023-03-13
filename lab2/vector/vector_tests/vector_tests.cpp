@@ -1,6 +1,7 @@
 ﻿#define CATCH_CONFIG_MAIN
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 #include "../../../catch2/catch.hpp"
 #include "../vector/Vector.h"
 
@@ -12,8 +13,8 @@ TEST_CASE("ReadVector function")
 		std::stringstream input;
 		REQUIRE(ReadVector(numbers, input) == numbers);
 		REQUIRE(numbers.empty());
+		std::cout << "Reading empty vector - Completed" << std::endl;
 	}
-
 	SECTION("Reading vector with one element") 
 	{
 		std::vector<double> numbers;
@@ -21,6 +22,7 @@ TEST_CASE("ReadVector function")
 		REQUIRE(ReadVector(numbers, input) == numbers);
 		REQUIRE(numbers.size() == 1);
 		REQUIRE(numbers[0] == 1.23);
+		std::cout << "Reading vector with one element - Completed" << std::endl;
 	}
 
 	SECTION("Reading vector with multiple elements") 
@@ -29,26 +31,35 @@ TEST_CASE("ReadVector function")
 		std::stringstream input("1.23 4.56 -7.89\n");
 		REQUIRE(ReadVector(numbers, input) == numbers);
 		REQUIRE(numbers.size() == 3);
+		std::cout << "Reading vector with multiple elements - Completed" << std::endl;
 	}
+	std::cout << std::endl;
 }
 
 TEST_CASE("ProcessVector function")
 {
 	SECTION("ProcessVector returns a vector with the same size as input vector")
 	{
-		std::vector<double> input{ 1.0, 2.0, 3.0 };
-		std::vector<double> result = ProcessVector(input);
-		REQUIRE(result.size() == input.size());
+		std::vector<double> numbers{ 1.0, 2.0, 3.0 };
+		double min = *min_element(numbers.begin(), numbers.end());
+		double max = *max_element(numbers.begin(), numbers.end());
+		std::vector<double> result = ProcessVector(numbers, min, min);
+		REQUIRE(result.size() == numbers.size());
+		std::cout << "ProcessVector returns a vector with the same size as input vector - Completed" << std::endl;
 	}
 
 	SECTION("ProcessVector returns a vector with transformed values")
 	{
-		std::vector<double> input{ 1.0, 2.0, 3.0 };
-		std::vector<double> expected{ input[0] * 3.0 / 1.0, input[1] * 3.0 / 1.0, input[2] * 3.0 / 1.0 };
-		std::vector<double> result = ProcessVector(input);
+		std::vector<double> numbers{ 1.0, 2.0, 3.0 };
+		double min = *min_element(numbers.begin(), numbers.end());
+		double max = *max_element(numbers.begin(), numbers.end());
+		std::vector<double> expected{ numbers[0] * 3.0 / 1.0, numbers[1] * 3.0 / 1.0, numbers[2] * 3.0 / 1.0 };
+		std::vector<double> result = ProcessVector(numbers, min, max);
 
 		REQUIRE(result == expected);
+		std::cout << "ProcessVector returns a vector with transformed values - Completed" << std::endl;
 	}
+	std::cout << '\n';
 }
 
 TEST_CASE("PrintVector function")
@@ -62,6 +73,7 @@ TEST_CASE("PrintVector function")
 		PrintVector(numbers);
 		std::cout.rdbuf(old_cout);
 		REQUIRE(ss.str() == "");
+		std::cout << "PrintVector prints empty vector - Completed" << std::endl;
 	}
 
 	SECTION("PrintVector prints single element vector")
@@ -71,6 +83,7 @@ TEST_CASE("PrintVector function")
 		PrintVector(numbers);
 		std::cout.rdbuf(old_cout);
 		REQUIRE(ss.str() == "3.14 ");
+		std::cout << "PrintVector prints single element vector - Completed" << std::endl;
 	}
 
 	SECTION("PrintVector prints multiple element vector")
@@ -80,29 +93,7 @@ TEST_CASE("PrintVector function")
 		PrintVector(numbers);
 		std::cout.rdbuf(old_cout);
 		REQUIRE(ss.str() == "1 2 3 ");
+		std::cout << "PrintVector prints multiple element vector - Completed" << std::endl;
 	}
-}
-
-TEST_CASE("GetErrorCode function")
-{
-	SECTION("GetErrorCode returns 0 for vector with valid values")
-	{
-		std::vector<double> numbers{ 1.0, 2.0, 3.0 };
-		int result = GetErrorCode(numbers);
-		REQUIRE(result == 0);
-	}
-
-	SECTION("GetErrorCode returns 1 for empty vector")
-	{
-		std::vector<double> numbers;
-		int result = GetErrorCode(numbers);
-		REQUIRE(result == 1);
-	}
-
-	SECTION("GetErrorCode returns 2 for vector with minimum value of 0")
-	{
-		std::vector<double> numbers{ 0.0, 1.0, 2.0 };
-		int result = GetErrorCode(numbers);
-		REQUIRE(result == 2);
-	}
+	std::cout << std::endl;
 }

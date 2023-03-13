@@ -1,0 +1,2 @@
+The line cannot be empty!
+The rule of entry is - findtext.exe <file name> <text to search>

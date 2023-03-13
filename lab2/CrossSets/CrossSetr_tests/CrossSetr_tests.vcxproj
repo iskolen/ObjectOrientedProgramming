@@ -20,10 +20,11 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{C4581236-D9DE-430B-8A00-6EBCAC6F61FD}</ProjectGuid>
+    <ProjectGuid>{46C340BB-C7EE-4C14-81E7-41FEFABEBFC1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>findtext</RootNamespace>
+    <RootNamespace>CrossSetrtests</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectName>CrossSets_tests</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -96,10 +97,6 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>test.bat "$(TargetPath)"</Command>
-      <Message>Running Tests</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -115,12 +112,6 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>test.bat "$(TargetPath)"</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Running Tests</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -161,23 +152,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="findtext.cpp" />
+    <ClCompile Include="..\CrossSets\SetsHandler.cpp" />
+    <ClCompile Include="CrossSets_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="test.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Empty-out.txt" />
-    <Text Include="Empty.txt" />
-    <Text Include="EmptyLine-out.txt" />
-    <Text Include="NoFileExists-out.txt" />
-    <Text Include="NoFileName-out.txt" />
-    <Text Include="NoSearchString-out.txt" />
-    <Text Include="NoSearchString.txt" />
-    <Text Include="PositiveTest-out.txt" />
-    <Text Include="PositiveTest.txt" />
-    <Text Include="TwoSearchStringInOne-out.txt" />
-    <Text Include="TwoSearchStringInOne.txt" />
+    <ClInclude Include="..\CrossSets\SetsHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
