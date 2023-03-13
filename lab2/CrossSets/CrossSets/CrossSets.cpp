@@ -3,6 +3,8 @@
 #include <string>
 #include <cctype>
 
+// Поменять название переменных set1 и set2, также поменять название функций ReadFirstSet и ReadSecondSet
+// Исправить тесты
 int main(int argc, char* argv[]) 
 {
 	int n;
