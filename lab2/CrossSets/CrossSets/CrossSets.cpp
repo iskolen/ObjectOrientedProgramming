@@ -13,9 +13,9 @@ int main(int argc, char* argv[])
 	if (errorCode != 0)
 		return errorCode;
 
-	std::set<int> set1 = ReadFirstSet(n);
-	std::set<int> set2 = ReadSecondSet(n);
-	PrintSets(set1, set2);
+	std::set<int> divDigitSumSet = CreateDivDigitSumSet(n);
+	std::set<int> evenDigitSumSet = CreateEvenDigitSumSet(n);
+	PrintSets(divDigitSumSet, evenDigitSumSet);
 
 	return 0;
 }

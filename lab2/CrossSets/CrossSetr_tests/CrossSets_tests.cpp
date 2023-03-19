@@ -98,81 +98,81 @@ TEST_CASE("GetErrorCode function")
 	std::cout << std::endl << std::endl;
 }
 
-TEST_CASE("ReadFirstSet function")
+TEST_CASE("CreateDivDigitSumSet function")
 {
-	SECTION("ReadFirstSet - n = 10")
+	SECTION("CreateDivDigitSumSet - n = 10")
 	{
 		std::set<int> expected = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-		std::set<int> result = ReadFirstSet(10);
+		std::set<int> result = CreateDivDigitSumSet(10);
 		REQUIRE(result == expected);
-		std::cout << "ReadFirstSet - n = 10 - Completed" << std::endl;
+		std::cout << "CreateDivDigitSumSet - n = 10 - Completed" << std::endl;
 	}
 
-	SECTION("ReadFirstSet - n = 20")
+	SECTION("CreateDivDigitSumSet - n = 20")
 	{
 		std::set<int> expected = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 18, 20 };
-		std::set<int> result = ReadFirstSet(20);
+		std::set<int> result = CreateDivDigitSumSet(20);
 		REQUIRE(result == expected);
-		std::cout << "ReadFirstSet - n = 20 - Completed" << std::endl;
+		std::cout << "CreateDivDigitSumSet - n = 20 - Completed" << std::endl;
 	}
 	std::cout << std::endl;
 }
 
-TEST_CASE("ReadSecondSet function")
+TEST_CASE("CreateEvenDigitSumSet function")
 {
-	SECTION("ReadSecondSet - n = 10")
+	SECTION("CreateEvenDigitSumSet - n = 10")
 	{
 		std::set<int> expected = { 2, 4, 6, 8 };
-		std::set<int> result = ReadSecondSet(10);
+		std::set<int> result = CreateEvenDigitSumSet(10);
 		REQUIRE(result == expected);
-		std::cout << "ReadSecondSet - n = 10 - Completed" << std::endl;
+		std::cout << "CreateEvenDigitSumSet - n = 10 - Completed" << std::endl;
 	}
 
-	SECTION("ReadSecondSet - n = 20")
+	SECTION("CreateEvenDigitSumSet - n = 20")
 	{
 		std::set<int> expected = { 2, 4, 6, 8, 11, 13, 15, 17, 19, 20 };
-		std::set<int> result = ReadSecondSet(20);
+		std::set<int> result = CreateEvenDigitSumSet(20);
 		REQUIRE(result == expected);
-		std::cout << "ReadSecondSet - n = 20 - Completed" << std::endl;
+		std::cout << "CreateEvenDigitSumSet - n = 20 - Completed" << std::endl;
 	}
 	std::cout << std::endl;
 }
 
 TEST_CASE("CrossSet function")
 {
-	std::set<int> set1 = { 1, 2, 3, 4, 5 };
-	std::set<int> set2 = { 4, 5, 6, 7, 8 };
+	std::set<int> divDigitSumSet = { 1, 2, 3, 4, 5 };
+	std::set<int> evenDigitSumSet = { 4, 5, 6, 7, 8 };
 	std::set<int> emptySet;
-	SECTION("Intersection of set1 and set2")
+	SECTION("Intersection of divDigitSumSet and evenDigitSumSet")
 	{
 		std::set<int> expected = { 4, 5 };
-		std::set<int> result = CrossSet(set1, set2);
+		std::set<int> result = CrossSet(divDigitSumSet, evenDigitSumSet);
 		REQUIRE(result == expected);
-		std::cout << "Intersection of set1 and set2 - Completed" << std::endl;
+		std::cout << "Intersection of divDigitSumSet and evenDigitSumSet - Completed" << std::endl;
 	}
 
-	SECTION("Intersection of set2 and set1")
+	SECTION("Intersection of evenDigitSumSet and divDigitSumSet")
 	{
 		std::set<int> expected = { 4, 5 };
-		std::set<int> result = CrossSet(set2, set1);
+		std::set<int> result = CrossSet(evenDigitSumSet, divDigitSumSet);
 		REQUIRE(result == expected);
-		std::cout << "Intersection of set2 and set1 - Completed" << std::endl;
+		std::cout << "Intersection of evenDigitSumSet and divDigitSumSet - Completed" << std::endl;
 	}
 
-	SECTION("Intersection of set1 and empty set")
+	SECTION("Intersection of divDigitSumSet and empty set")
 	{
 		std::set<int> expected = {};
-		std::set<int> result = CrossSet(set1, emptySet);
+		std::set<int> result = CrossSet(divDigitSumSet, emptySet);
 		REQUIRE(result == expected);
-		std::cout << "Intersection of set1 and empty set - Completed" << std::endl;
+		std::cout << "Intersection of divDigitSumSet and empty set - Completed" << std::endl;
 	}
 
-	SECTION("Intersection of empty set and set2")
+	SECTION("Intersection of empty set and evenDigitSumSet")
 	{
 		std::set<int> expected = {};
-		std::set<int> result = CrossSet(emptySet, set2);
+		std::set<int> result = CrossSet(emptySet, evenDigitSumSet);
 		REQUIRE(result == expected);
-		std::cout << "Intersection of empty set and set2 - Completed" << std::endl;
+		std::cout << "Intersection of empty set and evenDigitSumSet - Completed" << std::endl;
 	}
 
 	SECTION("Intersection of two empty sets")
@@ -188,15 +188,15 @@ TEST_CASE("CrossSet function")
 
 TEST_CASE("PrintSets function")
 {
-	std::set<int> set1 = { 1, 2, 3 };
-	std::set<int> set2 = { 2, 3, 4 };
+	std::set<int> divDigitSumSet = { 1, 2, 3 };
+	std::set<int> evenDigitSumSet = { 2, 3, 4 };
 	std::set<int> emptySet;
 	std::stringstream ss;
 
 	SECTION("Prints sets and their intersection")
 	{
 		std::streambuf* old_cout = std::cout.rdbuf(ss.rdbuf());
-		PrintSets(set1, set2);
+		PrintSets(divDigitSumSet, evenDigitSumSet);
 		std::cout.rdbuf(old_cout);
 		REQUIRE(ss.str() == "Set 1: 1 2 3 \nSet 2: 2 3 4 \nIntersection: 2 3 ");
 		std::cout << "Prints sets and their intersection - Completed" << std::endl;
@@ -211,22 +211,22 @@ TEST_CASE("PrintSets function")
 		std::cout << "Prints empty sets and empty intersection - Completed" << std::endl;
 	}
 
-	SECTION("Prints set1 and empty set2")
+	SECTION("Prints divDigitSumSet and empty evenDigitSumSet")
 	{
 		std::streambuf* old_cout = std::cout.rdbuf(ss.rdbuf());
-		PrintSets(set1, emptySet);
+		PrintSets(divDigitSumSet, emptySet);
 		std::cout.rdbuf(old_cout);
 		REQUIRE(ss.str() == "Set 1: 1 2 3 \nSet 2: \nIntersection: ");
-		std::cout << "Prints set1 and empty set2 - Completed" << std::endl;
+		std::cout << "Prints divDigitSumSet and empty evenDigitSumSet - Completed" << std::endl;
 	}
 
-	SECTION("Prints empty set1 and set2")
+	SECTION("Prints empty divDigitSumSet and evenDigitSumSet")
 	{
 		std::streambuf* old_cout = std::cout.rdbuf(ss.rdbuf());
-		PrintSets(emptySet, set2);
+		PrintSets(emptySet, evenDigitSumSet);
 		std::cout.rdbuf(old_cout);
 		REQUIRE(ss.str() == "Set 1: \nSet 2: 2 3 4 \nIntersection: ");
-		std::cout << "Prints empty set1 and set2 - Completed" << std::endl;
+		std::cout << "Prints empty divDigitSumSet and evenDigitSumSet - Completed" << std::endl;
 	}
 	std::cout << std::endl;
 }
