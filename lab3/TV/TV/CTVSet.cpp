@@ -1,8 +1,5 @@
 #include "CTVSet.h"
 
-const int MIN_AVAILABLE_CHANNEL = 1;
-const int MAX_AVAILABLE_CHANNEL = 99;
-
 bool CTVSet::IsTurnedOn() const
 {
 	return m_isOn;
@@ -31,7 +28,18 @@ bool CTVSet::SelectChannel(int channel)
 	bool isAvailableChannel = (channel >= MIN_AVAILABLE_CHANNEL) && (channel <= MAX_AVAILABLE_CHANNEL);
 	if (isAvailableChannel && m_isOn)
 	{
+		m_previousChannel = m_selectedChannel;
 		m_selectedChannel = channel;
+		return true;
+	}
+	return false;
+}
+
+bool CTVSet::SelectPreviousChannel()
+{
+	if (m_isOn)
+	{
+		m_selectedChannel = m_previousChannel;
 		return true;
 	}
 	return false;
