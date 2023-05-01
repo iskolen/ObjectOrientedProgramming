@@ -9,8 +9,6 @@ public:
 	double GetRadius() const;
 	double GetVolume() const override;
 	std::string GetType() const override;
-
-	virtual ~CSphere();
 private:
 	void AppendProperties(std::ostream & strm) const override;
 	double m_radius;

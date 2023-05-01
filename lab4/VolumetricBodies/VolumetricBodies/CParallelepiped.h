@@ -11,8 +11,6 @@ public:
 	double GetDepth() const;
 	double GetVolume() const override;
 	std::string GetType() const override;
-
-	virtual ~CParallelepiped();
 private:
 	void AppendProperties(std::ostream & strm) const override;
 	double m_width;

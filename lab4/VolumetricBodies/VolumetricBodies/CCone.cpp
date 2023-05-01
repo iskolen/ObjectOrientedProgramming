@@ -7,10 +7,6 @@ CCone::CCone(double baseRadius, double height, double density)
 {
 }
 
-CCone::~CCone()
-{
-}
-
 double CCone::GetBaseRadius() const
 {
 	return m_baseRadius;

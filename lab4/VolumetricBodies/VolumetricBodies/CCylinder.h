@@ -10,8 +10,6 @@ public:
 	double GetHeight() const;
 	double GetVolume() const override;
 	std::string GetType() const override;
-
-	virtual ~CCylinder();
 private:
 	void AppendProperties(std::ostream & strm) const override;
 	double m_baseRadius;
