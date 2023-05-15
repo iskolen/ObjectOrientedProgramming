@@ -1,188 +1,217 @@
 #include "CController.h"
 
-CController::CController(std::istream &input, std::ostream &output)
+CController::CController(std::istream &input, std::ostream &output, std::vector<std::shared_ptr<CBody>>& bodies)
 	: m_input(input)
 	, m_output(output)
+	, m_bodies(bodies)
+	, m_actionMap({
+		{ COMMAND_ADD_BODY, std::bind(&CController::SetNewBody, this) },
+		{ COMMAND_GET_MAX_MASS_BODY, std::bind(&CController::GetMaxMassBody, this) },
+		{ COMMAND_GET_LIGHTEST_BODY_IN_WATER, std::bind(&CController::GetLightestBodyInWater, this) },
+		{ COMMAND_GET_INFO_ABOUT_ALL_BODIES, std::bind(&CController::GetInfoAboutAllBodies, this) }
+		})
 {
 }
 
-//Использовать алгоритмы stl (min, max)
-void CController::PrintStartMessage()
+CController::~CController()
 {
-	std::cout << START_MESSAGE;
 }
 
-double CController::ReadValueDouble(const std::string& prompt)
+
+bool CController::HandleCommand()
+{
+	std::string commandLine;
+	getline(m_input, commandLine);
+	std::istringstream strm(commandLine);
+
+	std::string action;
+	if (!(strm >> action))
+	{
+		return true;
+	}
+	auto it = m_actionMap.find(action);
+	if (it != m_actionMap.end())
+	{
+		return it->second(strm);
+	}
+
+	return false;
+}
+
+
+double CController::SetValueDouble(const std::string& prompt)
 {
 	double value;
-	std::cout << prompt;
-	std::cin >> value;
+	m_output << prompt;
+	while (!(m_input >> value))
+	{
+		m_input.clear();
+		m_input.ignore(std::numeric_limits<std::streamsize>::max(), LINE_BREAK);
+		m_output << ERROR_VALUE_NOT_DIGIT << std::endl;
+		m_output << prompt;
+	}
 	return value;
 }
 
-int CController::ReadValueInt(const std::string& prompt)
+bool CController::SetNewBody()
 {
-	int value;
-	std::cout << prompt;
-	std::cin >> value;
-	return value;
-}
+	m_output << MESSAGE_ABOUT_TYPE_BODY;
+	double bodyType = SetValueDouble(ENTER_TYPE_BODY);
 
-void CController::AddBodyToCompound(std::shared_ptr<CCompound>& compound)
-{
-	int bodyType;
-	std::cout << MESSAGE_ABOUT_TYPE_BODY;
-	std::cout << ENTER_TYPE_BODY;
-	std::cin >> bodyType;
-
-	if (bodyType == TYPE_BODY_SHPERE)
+	switch (static_cast<int>(bodyType))
 	{
-		double radius = ReadValueDouble(ENTER_RADIUS_SPHERE);
-		double density = ReadValueDouble(ENTER_DENSITY_SPHERE);
-		std::shared_ptr<CSphere> sphere = std::make_shared<CSphere>(radius, density);
-		compound->AddChildBody(sphere);
-		return;
-	}
-	if (bodyType == TYPE_BODY_PARALLELEPIPED)
-	{
-		double width = ReadValueDouble(ENTER_WIDTH_PARALLELEPIPED);
-		double depth = ReadValueDouble(ENTER_DEPTH_PARALLELEPIPED);
-		double height = ReadValueDouble(ENTER_HEIGHT_PARALLELEPIPED);
-		double density = ReadValueDouble(ENTER_DENSITY_PARALLELEPIPED);
-		std::shared_ptr<CParallelepiped> parallelepiped = std::make_shared<CParallelepiped>(width, depth, height, density);
-		compound->AddChildBody(parallelepiped);
-		return;
-	}
-	if (bodyType == TYPE_BODY_CONE)
-	{
-		double baseRadius = ReadValueDouble(ENTER_BASE_RADIUS_CONE);
-		double height = ReadValueDouble(ENTER_HEIGHT_CONE);
-		double density = ReadValueDouble(ENTER_DENSITY_CONE);
-		std::shared_ptr<CCone> cone = std::make_shared<CCone>(baseRadius, height, density);
-		compound->AddChildBody(cone);
-		return;
-	}
-	if (bodyType == TYPE_BODY_CYLINDER)
-	{
-		double baseRadius = ReadValueDouble(ENTER_BASE_RADIUS_CYLINDER);
-		double height = ReadValueDouble(ENTER_HEIGHT_CYLINDER);
-		double density = ReadValueDouble(ENTER_DENSITY_CYLINDER);
-		std::shared_ptr<CCylinder> cylinder = std::make_shared<CCylinder>(baseRadius, height, density);
-		compound->AddChildBody(cylinder);
-		return;
+	case TYPE_BODY_SHPERE:
+		return SetSphere();
+	case TYPE_BODY_PARALLELEPIPED:
+		return SetParallelepiped();
+	case TYPE_BODY_CONE:
+		return SetCone();
+	case TYPE_BODY_CYLINDER:
+		return SetCylinder();
+	default:
+		m_output << UNKNOWN_BODY_TYPE;
+		return SetNewBody();
 	}
 }
 
-void CController::AddBody(std::vector<std::shared_ptr<CBody>>& bodies)
+bool CController::SetSphere()
 {
-	int bodyType;
-	std::cout << MESSAGE_ABOUT_TYPE_BODY;
-	std::cout << ENTER_TYPE_BODY;
-	std::cin >> bodyType;
+	double radius = SetValueDouble(ENTER_RADIUS_SPHERE);
+	double density = SetValueDouble(ENTER_DENSITY_SPHERE);
 
-	if (bodyType == TYPE_BODY_SHPERE)
+	if (radius < 0 || density < 0)
 	{
-		double radius = ReadValueDouble(ENTER_RADIUS_SPHERE);
-		double density = ReadValueDouble(ENTER_DENSITY_SPHERE);
-		std::shared_ptr<CSphere> sphere = std::make_shared<CSphere>(radius, density);
-		bodies.push_back(sphere);
-		return;
+		m_output << ERROR_VALUE_NEGATIVE << std::endl;
+		return true;
 	}
-	if (bodyType == TYPE_BODY_PARALLELEPIPED)
-	{
-		double width = ReadValueDouble(ENTER_WIDTH_PARALLELEPIPED);
-		double depth = ReadValueDouble(ENTER_DEPTH_PARALLELEPIPED);
-		double height = ReadValueDouble(ENTER_HEIGHT_PARALLELEPIPED);
-		double density = ReadValueDouble(ENTER_DENSITY_PARALLELEPIPED);
-		std::shared_ptr<CParallelepiped> parallelepiped = std::make_shared<CParallelepiped>(width, depth, height, density);
-		bodies.push_back(parallelepiped);
-		return;
-	}
-	if (bodyType == TYPE_BODY_CONE)
-	{
-		double baseRadius = ReadValueDouble(ENTER_BASE_RADIUS_CONE);
-		double height = ReadValueDouble(ENTER_HEIGHT_CONE);
-		double density = ReadValueDouble(ENTER_DENSITY_CONE);
-		std::shared_ptr<CCone> cone = std::make_shared<CCone>(baseRadius, height, density);
-		bodies.push_back(cone);
-		return;
-	}
-	if (bodyType == TYPE_BODY_CYLINDER)
-	{
-		double baseRadius = ReadValueDouble(ENTER_BASE_RADIUS_CYLINDER);
-		double height = ReadValueDouble(ENTER_HEIGHT_CYLINDER);
-		double density = ReadValueDouble(ENTER_DENSITY_CYLINDER);
-		std::shared_ptr<CCylinder> cylinder = std::make_shared<CCylinder>(baseRadius, height, density);
-		bodies.push_back(cylinder);
-		return;
-	}
-	if (bodyType == TYPE_BODY_COMPOUND)
-	{
-		int numBodies = ReadValueInt(ENTER_NUMBER_OF_BODIES);
-		std::shared_ptr<CCompound> compound = std::make_shared<CCompound>();
-		bodies.push_back(compound);
-		for (int i = 0; i < numBodies; i++)
-		{
-			AddBodyToCompound(compound);
-		}
-	}
-	else
-	{
-		std::cout << UNKNOWN_BODY_TYPE;
-	}
+
+	std::shared_ptr<CSphere> sphere = std::make_shared<CSphere>(radius, density);
+	m_bodies.push_back(sphere);
+	m_output << BODY_SUCCESSFULLY_ADDED << std::endl;
+	return true;
 }
 
-void CController::FindMaxMassBody(const std::vector<std::shared_ptr<CBody>>& bodies)
+bool CController::SetParallelepiped()
 {
-	double maxMass = 0;
-	std::shared_ptr<CBody> maxMassBody;
+	double width = SetValueDouble(ENTER_WIDTH_PARALLELEPIPED);
+	double depth = SetValueDouble(ENTER_DEPTH_PARALLELEPIPED);
+	double height = SetValueDouble(ENTER_HEIGHT_PARALLELEPIPED);
+	double density = SetValueDouble(ENTER_DENSITY_PARALLELEPIPED);
 
-	if (!bodies.empty())
+	if (width < 0 || height < 0 || depth < 0 || density < 0)
 	{
-		for (auto body : bodies)
-		{
-			if (body->GetMass() > maxMass)
-			{
-				maxMass = body->GetMass();
-				maxMassBody = body;
-			}
-		}
-		std::cout << MESSAGE_MAX_MASS_BODY << maxMassBody->ToString() << std::endl;
+		m_output << ERROR_VALUE_NEGATIVE << std::endl;
+		return true;
 	}
+
+	std::shared_ptr<CParallelepiped> parallelepiped = std::make_shared<CParallelepiped>(width, depth, height, density);
+	m_bodies.push_back(parallelepiped);
+	m_output << BODY_SUCCESSFULLY_ADDED << std::endl;
+	return true;
 }
 
-double CController::GetWeightBodyInWater(std::shared_ptr<CBody>& body)
+bool CController::SetCone()
+{
+	double baseRadius = SetValueDouble(ENTER_BASE_RADIUS_CONE);
+	double height = SetValueDouble(ENTER_HEIGHT_CONE);
+	double density = SetValueDouble(ENTER_DENSITY_CONE);
+
+	if (baseRadius < 0 || height < 0 || density < 0)
+	{
+		m_output << ERROR_VALUE_NEGATIVE << std::endl;
+		return true;
+	}
+
+	std::shared_ptr<CCone> cone = std::make_shared<CCone>(baseRadius, height, density);
+	m_bodies.push_back(cone);
+	m_output << BODY_SUCCESSFULLY_ADDED << std::endl;
+	return true;
+}
+
+bool CController::SetCylinder()
+{
+	double baseRadius = SetValueDouble(ENTER_BASE_RADIUS_CYLINDER);
+	double height = SetValueDouble(ENTER_HEIGHT_CYLINDER);
+	double density = SetValueDouble(ENTER_DENSITY_CYLINDER);
+
+	if (baseRadius < 0 || height < 0 || density < 0)
+	{
+		m_output << ERROR_VALUE_NEGATIVE << std::endl;
+		return true;
+	}
+
+	std::shared_ptr<CCylinder> cylinder = std::make_shared<CCylinder>(baseRadius, height, density);
+	m_bodies.push_back(cylinder);
+	m_output << BODY_SUCCESSFULLY_ADDED << std::endl;
+	return true;
+}
+
+bool CController::GetMaxMassBody() const
+{
+	if (m_bodies.empty())
+	{
+		m_output << ERROR_BODIES_ABSENT << std::endl;
+		return true;
+	}
+
+	auto maxMassBody = std::max_element(m_bodies.begin(), m_bodies.end(), [](const auto& leftBody, const auto& rightBody)
+	{
+		return leftBody->GetMass() < rightBody->GetMass();
+	});
+
+	GetInfoAboutBody(*maxMassBody);
+
+	return true;
+}
+
+double CController::GetWeightBodyInWater(const std::shared_ptr<CBody>& body) const
 {
 	return ((body->GetDensity() - WATER_DENSITY) * ACCELERATION_OF_FREE_FALL * body->GetVolume());
 }
 
-void CController::FindLightestBodyInWater(const std::vector<std::shared_ptr<CBody>>& bodies)
+bool CController::GetLightestBodyInWater() const
 {
-	double minWeightInWater = MIN_WEIGHT_IN_WATER;
-	std::shared_ptr<CBody> minWeightInWaterBody;
-
-	if (!bodies.empty())
+	if (m_bodies.empty())
 	{
-		for (auto body : bodies)
-		{
-			if (GetWeightBodyInWater(body) < minWeightInWater)
-			{
-				minWeightInWater = GetWeightBodyInWater(body);
-				minWeightInWaterBody = body;
-			}
-		}
-		std::cout << MESSAGE_MIN_WEIGHT_IN_WATER << minWeightInWaterBody->ToString() << LINE_BREAK;
-		std::cout << MESSAGE_WEIGHT_IN_WATER << minWeightInWater;
+		m_output << ERROR_BODIES_ABSENT << std::endl;
+		return true;
 	}
+
+	auto lightestBodyInWater = std::min_element(m_bodies.begin(), m_bodies.end(), [this](const auto& leftBody, const auto& rightBody)
+	{
+		return GetWeightBodyInWater(leftBody) < GetWeightBodyInWater(rightBody);
+	});
+
+	GetInfoAboutBody(*lightestBodyInWater);
+
+	return true;
 }
 
-void CController::GetInfoAboutAllBodies(const std::vector<std::shared_ptr<CBody>>& bodies)
+bool CController::GetInfoAboutAllBodies() const
 {
-	if (!bodies.empty())
+	if (m_bodies.empty())
 	{
-		for (int i = 0; i < bodies.size(); i++)
-		{
-			std::cout << FIRST_PART_DIVISION << (i + 1) << SECOND_PART_DIVISION << bodies[i]->ToString() << LINE_BREAK;
-		}
+		m_output << ERROR_BODIES_ABSENT << std::endl;
+		return true;
+	}
+
+	for (size_t i = 0; i < m_bodies.size(); i++)
+	{
+		m_output << FIRST_PART_DIVISION << (i + 1) << SECOND_PART_DIVISION << m_bodies[i]->ToString() << LINE_BREAK;
+	}
+
+	return true;
+}
+
+bool CController::GetInfoAboutBody(const std::shared_ptr<CBody>& body) const
+{
+	if (body == nullptr)
+	{
+		return false;
+	}
+	else
+	{
+		m_output << body->ToString() << std::endl;
+		return true;
 	}
 }

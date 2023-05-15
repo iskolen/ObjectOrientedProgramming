@@ -19,16 +19,16 @@ double CCone::GetHeight() const
 
 double CCone::GetVolume() const
 {
-	return PI * pow(m_baseRadius, 2) * (m_height / 3);
+	return M_PI * pow(m_baseRadius, 2) * (m_height / 3);
 }
 
 std::string CCone::GetType() const
 {
-	return "Конус";
+	return TYPE_CONE;
 }
 
 void CCone::AppendProperties(std::ostream & strm) const
 {
-	strm << "Радиус основания = " << GetBaseRadius() << std::endl
-		 << "Высота конуса = " << GetHeight() << std::endl;
+	strm << APPEND_CONE_RADIUS << GetBaseRadius() << std::endl
+		 << APPEND_CONE_HEIGHT << GetHeight() << std::endl;
 }

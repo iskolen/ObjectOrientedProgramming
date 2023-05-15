@@ -30,12 +30,12 @@ double CParallelepiped::GetVolume() const
 
 std::string CParallelepiped::GetType() const
 {
-	return "Параллелепипед";
+	return TYPE_PARALLELEPIPED;
 }
 
 void CParallelepiped::AppendProperties(std::ostream & strm) const
 {
-	strm << "Ширина параллелепипеда = " << GetWidth() << std::endl
-		 << "Длина параллелепипеда = " << GetDepth() << std::endl
-		 << "Высота параллелепипеда = " << GetHeight() << std::endl;
+	strm << APPEND_PARALLELEPIPED_WIDTH << GetWidth() << std::endl
+		 << APPEND_PARALLELEPIPED_DEPTH << GetDepth() << std::endl
+		 << APPEND_PARALLELEPIPED_HEIGHT << GetHeight() << std::endl;
 }

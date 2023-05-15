@@ -1,46 +1,49 @@
 #pragma once
+#include "stdafx.h"
 #include "CBody.h"
 #include "CSphere.h"
 #include "CParallelepiped.h"
 #include "CCone.h"
 #include "CCylinder.h"
 #include "CCompound.h"
-#include <iostream>
-#include <string>
-#include <vector>
-#include <memory>
 
 class CController
 {
 public:
-	CController(std::istream &input, std::ostream &output);
-	int ReadValueInt(const std::string& prompt);
-	double GetWeightBodyInWater(std::shared_ptr<CBody>& body);
-	double ReadValueDouble(const std::string& prompt);
-	void PrintStartMessage();
-	void AddBody(std::vector<std::shared_ptr<CBody>>& bodies);
-	void AddBodyToCompound(std::shared_ptr<CCompound>& compound);
-	void FindMaxMassBody(const std::vector<std::shared_ptr<CBody>>& bodies);
-	void FindLightestBodyInWater(const std::vector<std::shared_ptr<CBody>>& bodies);
-	void GetInfoAboutAllBodies(const std::vector<std::shared_ptr<CBody>>& bodies);
+	CController(std::istream &input, std::ostream &output, std::vector<std::shared_ptr<CBody>>& bodies);
+	~CController();
+	bool HandleCommand();
+
 private:
-	std::istream &m_input;
-	std::ostream &m_output;
+	bool SetNewBody();
+	bool GetInfoAboutAllBodies() const;
+	bool GetMaxMassBody() const;
+	bool GetLightestBodyInWater() const;
+	bool GetInfoAboutBody(const std::shared_ptr<CBody>& body) const;
+	double GetWeightBodyInWater(const std::shared_ptr<CBody>& body) const;
+	double SetValueDouble(const std::string& prompt);
+
+	bool SetSphere();
+	bool SetParallelepiped();
+	bool SetCone();
+	bool SetCylinder();
+
+	using Handler = std::function<bool(std::istream& args)>;
+	using ActionMap = std::map<std::string, Handler>;
+
+	std::istream& m_input;
+	std::ostream& m_output;
+	std::vector<std::shared_ptr<CBody>>& m_bodies;
+
+	const ActionMap m_actionMap;
 };
 
 
-const int COMMAND_ADD_BODY = 1;
-const int COMMAND_FIND_MAX_MASS_BODY = 2;
-const int COMMAND_FIND_LIGHTEST_BODY_IN_WATER = 3;
-const int COMMAND_GET_INFO_ABOUT_ALL_BODIES = 4;
-const int COMMAND_EXIT_COMMAND = 5;
 
-const char RUSSIAN_LANGUAGE[8] = "Russian";
-const char LINE_BREAK = '\n';
-
-const std::string MESSAGE_EXIT_PROGRAM = "\nСпасибо за использование программы =)\n";
-const std::string MESSAGE_INCORRECT_COMMAND = "Неверная команда!\n";
-const std::string MESSAGE_NUMBER_COMMAND = "Номер команды: ";
+const std::string COMMAND_ADD_BODY = "1";
+const std::string COMMAND_GET_MAX_MASS_BODY = "2";
+const std::string COMMAND_GET_LIGHTEST_BODY_IN_WATER = "3";
+const std::string COMMAND_GET_INFO_ABOUT_ALL_BODIES = "4";
 
 const int TYPE_BODY_SHPERE = 1;
 const int TYPE_BODY_PARALLELEPIPED = 2;
@@ -48,9 +51,14 @@ const int TYPE_BODY_CONE = 3;
 const int TYPE_BODY_CYLINDER = 4;
 const int TYPE_BODY_COMPOUND = 5;
 
+const char RUSSIAN_LANGUAGE[8] = "Russian";
+const char LINE_BREAK = '\n';
+
+const std::string MESSAGE_INCORRECT_COMMAND = "Неверная команда!\n";
+const std::string MESSAGE_NUMBER_COMMAND = "Номер команды: ";
+
 const double WATER_DENSITY = 1000;
 const double ACCELERATION_OF_FREE_FALL = 9.806;
-const double MIN_WEIGHT_IN_WATER = 1000000000;
 
 const std::string ENTER_RADIUS_SPHERE = "Введите радиус сферы: ";
 const std::string ENTER_DENSITY_SPHERE = "Введите плотность сферы: ";
@@ -69,13 +77,14 @@ const std::string ENTER_HEIGHT_CYLINDER = "Введите высоту цилиндра: ";
 const std::string ENTER_DENSITY_CYLINDER = "Введите плотность цилиндра: ";
 
 const std::string ENTER_NUMBER_OF_BODIES = "Введите количество тел, которое должно находиться в составном теле: ";
-
-const std::string MESSAGE_MAX_MASS_BODY = "Тело с максимальной массой: ";
-const std::string MESSAGE_MIN_WEIGHT_IN_WATER = "Тело которое легче всего весит, будучи полностью погруженным в воду: ";
-const std::string MESSAGE_WEIGHT_IN_WATER = "Вес тела в воде: ";
-const std::string MESSAGE_ABOUT_TYPE_BODY = "\nВведите тип тела \n1 - Сфера\n2 - Параллелепипед\n3 - Конус\n4 - Цилиндр\n5 - Составное тело\n\n";
+const std::string MESSAGE_ABOUT_TYPE_BODY = "\nВведите тип тела \n1 - Сфера\n2 - Параллелепипед\n3 - Конус\n4 - Цилиндр\n\n";
 const std::string UNKNOWN_BODY_TYPE = "Неизвестный тип тела\n";
 const std::string ENTER_TYPE_BODY = "Тип тела: ";
 const std::string FIRST_PART_DIVISION = "-------";
 const std::string SECOND_PART_DIVISION = "-------\n";
-const std::string START_MESSAGE = "------- Доступные команды------- \n1 - Добавить тело\n2 - Найти тело с наибольшей массой\n3 - Найти тело которое будет легче всего весить, будучи полностью погруженным в воду\n4 - Вывести информацию обо всех телах\n5 - Выйти из программы\n\n";
+const std::string START_MESSAGE = "------- Доступные команды------- \n1 - Добавить тело\n2 - Найти тело с наибольшей массой\n3 - Найти тело которое будет легче всего весить, будучи полностью погруженным в воду\n4 - Вывести информацию обо всех телах\n\n";
+
+const std::string BODY_SUCCESSFULLY_ADDED = "Тело успешно добавлено!";
+const std::string ERROR_VALUE_NEGATIVE = "Значения не могут быть отрицательными!";
+const std::string ERROR_BODIES_ABSENT = "Тела отсутствуют!";
+const std::string ERROR_VALUE_NOT_DIGIT = "Ошибка ввода! Значение должно быть цифрой!";

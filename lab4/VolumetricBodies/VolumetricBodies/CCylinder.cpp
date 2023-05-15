@@ -19,17 +19,17 @@ double CCylinder::GetHeight() const
 
 double CCylinder::GetVolume() const
 {
-	return PI * pow(m_baseRadius, 2) * m_height;
+	return M_PI * pow(m_baseRadius, 2) * m_height;
 }
 
 std::string CCylinder::GetType() const
 {
-	return "Цилиндр";
+	return TYPE_CYLINDER;
 }
 
 
 void CCylinder::AppendProperties(std::ostream & strm) const
 {
-	strm << "Радиус основания = " << GetBaseRadius() << std::endl
-		 << "Высота цилиндра = " << GetHeight() << std::endl;
+	strm << APPEND_CYLINDER_RADIUS << GetBaseRadius() << std::endl
+		 << APPEND_CYLINDER_HEIGHT << GetHeight() << std::endl;
 }

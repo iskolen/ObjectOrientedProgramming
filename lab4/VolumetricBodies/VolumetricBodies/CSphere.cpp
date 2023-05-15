@@ -13,15 +13,15 @@ double CSphere::GetRadius() const
 
 double CSphere::GetVolume() const
 {
-	return (4 / 3) * (PI * pow(m_radius, 3));
+	return (4 / 3) * (M_PI * pow(m_radius, 3));
 }
 
 std::string CSphere::GetType() const
 {
-	return "Сфера";
+	return TYPE_SPHERE;
 }
 
 void CSphere::AppendProperties(std::ostream & strm) const
 {
-	strm << "Радиус = " << GetRadius() << std::endl;
+	strm << APPEND_SPHERE_RADIUS << GetRadius() << std::endl;
 }
