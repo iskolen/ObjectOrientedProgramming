@@ -1,6 +1,6 @@
 #pragma once
-#include "CSolidBody.h"
-
+#include "CBody.h"
+//Паттерн composite
 class CCompound final : public CBody
 {
 public:

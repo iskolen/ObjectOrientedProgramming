@@ -53,7 +53,7 @@ double CController::SetValueDouble(const std::string& prompt)
 	return value;
 }
 
-bool CController::SetNewBody()
+bool CController::SetNewBody()//Паттерн пректирования - фабричный метод
 {
 	m_output << MESSAGE_ABOUT_TYPE_BODY;
 	double bodyType = SetValueDouble(ENTER_TYPE_BODY);

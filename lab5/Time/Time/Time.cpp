@@ -11,5 +11,11 @@ int main()
 	std::cout << timeMin.GetHours() << SEPARATOR << timeMin.GetMinutes() << SEPARATOR << timeMin.GetSeconds() << std::endl;
 	std::cout << timeMin << std::endl;
 
+	CTime time1(3600);
+	CTime time2(1800);
+
+	time2 -= time1;
+	std::cout << time2;
+
 	return 0;
 }
