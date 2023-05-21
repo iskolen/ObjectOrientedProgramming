@@ -17,6 +17,17 @@ CController::~CController()
 {
 }
 
+void CController::ProcessInput()
+{
+	m_output << START_MESSAGE;
+	while (!m_input.eof() && !m_input.fail())
+	{
+		if (!HandleCommand())
+		{
+			m_output << INCORRECT_COMMAND << std::endl;
+		}
+	}
+}
 
 bool CController::HandleCommand()
 {
@@ -38,7 +49,6 @@ bool CController::HandleCommand()
 	return false;
 }
 
-
 double CController::SetValueDouble(const std::string& prompt)
 {
 	double value;
@@ -53,12 +63,28 @@ double CController::SetValueDouble(const std::string& prompt)
 	return value;
 }
 
-bool CController::SetNewBody()//Паттерн пректирования - фабричный метод
+bool CController::SetNewBody()//Паттерн фабрика 
 {
 	m_output << MESSAGE_ABOUT_TYPE_BODY;
 	double bodyType = SetValueDouble(ENTER_TYPE_BODY);
 
-	switch (static_cast<int>(bodyType))
+	std::shared_ptr<CBody> body = SetBody(static_cast<int>(bodyType));
+	if (body != nullptr)
+	{
+		m_bodies.push_back(body);
+		m_output << BODY_SUCCESSFULLY_ADDED << std::endl;
+		return true;
+	}
+	else
+	{
+		m_output << UNKNOWN_BODY_TYPE;
+		return SetNewBody();
+	}
+}
+
+std::shared_ptr<CBody> CController::SetBody(int type)
+{
+	switch (type)
 	{
 	case TYPE_BODY_SHPERE:
 		return SetSphere();
@@ -68,13 +94,14 @@ bool CController::SetNewBody()//Паттерн пректирования - фабричный метод
 		return SetCone();
 	case TYPE_BODY_CYLINDER:
 		return SetCylinder();
+	case TYPE_BODY_COMPOUND:
+		return SetCompound();
 	default:
-		m_output << UNKNOWN_BODY_TYPE;
-		return SetNewBody();
+		return nullptr;
 	}
 }
 
-bool CController::SetSphere()
+std::shared_ptr<CBody> CController::SetSphere()
 {
 	double radius = SetValueDouble(ENTER_RADIUS_SPHERE);
 	double density = SetValueDouble(ENTER_DENSITY_SPHERE);
@@ -82,16 +109,13 @@ bool CController::SetSphere()
 	if (radius < 0 || density < 0)
 	{
 		m_output << ERROR_VALUE_NEGATIVE << std::endl;
-		return true;
+		return nullptr;
 	}
 
-	std::shared_ptr<CSphere> sphere = std::make_shared<CSphere>(radius, density);
-	m_bodies.push_back(sphere);
-	m_output << BODY_SUCCESSFULLY_ADDED << std::endl;
-	return true;
+	return std::make_shared<CSphere>(radius, density);
 }
 
-bool CController::SetParallelepiped()
+std::shared_ptr<CBody> CController::SetParallelepiped()
 {
 	double width = SetValueDouble(ENTER_WIDTH_PARALLELEPIPED);
 	double depth = SetValueDouble(ENTER_DEPTH_PARALLELEPIPED);
@@ -101,16 +125,13 @@ bool CController::SetParallelepiped()
 	if (width < 0 || height < 0 || depth < 0 || density < 0)
 	{
 		m_output << ERROR_VALUE_NEGATIVE << std::endl;
-		return true;
+		return nullptr;
 	}
 
-	std::shared_ptr<CParallelepiped> parallelepiped = std::make_shared<CParallelepiped>(width, depth, height, density);
-	m_bodies.push_back(parallelepiped);
-	m_output << BODY_SUCCESSFULLY_ADDED << std::endl;
-	return true;
+	return std::make_shared<CParallelepiped>(width, depth, height, density);
 }
 
-bool CController::SetCone()
+std::shared_ptr<CBody> CController::SetCone()
 {
 	double baseRadius = SetValueDouble(ENTER_BASE_RADIUS_CONE);
 	double height = SetValueDouble(ENTER_HEIGHT_CONE);
@@ -119,16 +140,13 @@ bool CController::SetCone()
 	if (baseRadius < 0 || height < 0 || density < 0)
 	{
 		m_output << ERROR_VALUE_NEGATIVE << std::endl;
-		return true;
+		return nullptr;
 	}
 
-	std::shared_ptr<CCone> cone = std::make_shared<CCone>(baseRadius, height, density);
-	m_bodies.push_back(cone);
-	m_output << BODY_SUCCESSFULLY_ADDED << std::endl;
-	return true;
+	return std::make_shared<CCone>(baseRadius, height, density);
 }
 
-bool CController::SetCylinder()
+std::shared_ptr<CBody> CController::SetCylinder()
 {
 	double baseRadius = SetValueDouble(ENTER_BASE_RADIUS_CYLINDER);
 	double height = SetValueDouble(ENTER_HEIGHT_CYLINDER);
@@ -137,13 +155,32 @@ bool CController::SetCylinder()
 	if (baseRadius < 0 || height < 0 || density < 0)
 	{
 		m_output << ERROR_VALUE_NEGATIVE << std::endl;
-		return true;
+		return nullptr;
 	}
 
-	std::shared_ptr<CCylinder> cylinder = std::make_shared<CCylinder>(baseRadius, height, density);
-	m_bodies.push_back(cylinder);
-	m_output << BODY_SUCCESSFULLY_ADDED << std::endl;
-	return true;
+	return std::make_shared<CCylinder>(baseRadius, height, density);
+}
+
+std::shared_ptr<CBody> CController::SetCompound()
+{
+	double numberOfChildren = SetValueDouble(ENTER_NUMBER_OF_CHILD);
+	if (numberOfChildren <= 0)
+	{
+		m_output << ERROR_NUMBER_OF_CHILD_NEGATIVE << std::endl;
+		return nullptr;
+	}
+	std::shared_ptr<CCompound> compound = std::make_shared<CCompound>();
+
+	for (int i = 0; i < numberOfChildren; i++)
+	{
+		m_output << MESSAGE_ABOUT_TYPE_BODY;
+		double childBodyType = SetValueDouble(ENTER_TYPE_BODY);
+		std::shared_ptr<CBody> child = SetBody(static_cast<int>(childBodyType));
+		compound->AddChild(child);
+		m_output << std::endl << i + 1 << OUT_OF_MESSAGE << numberOfChildren << CHILD_SUCCESSFULLY_ADDED << std::endl;
+	}
+
+	return compound;
 }
 
 bool CController::GetMaxMassBody() const

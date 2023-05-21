@@ -1,5 +1,4 @@
 #include "CSolidBody.h"
-#include <string>
 
 CSolidBody::CSolidBody(double density)
 	: m_density(density)
