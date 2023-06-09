@@ -26,7 +26,7 @@ const char COLON = ':';
 const char SLASH = '/';
 const char RUSSIAN_LANGUAGE[8] = "Russian";
 
-const int MIN_PORT_VALUE = 0;
+const int MIN_PORT_VALUE = 1;
 const int MAX_PORT_VALUE = 65535;
 
 const int PROTOCOL_REGEX_INDEX = 1;
@@ -77,4 +77,8 @@ private:
 	unsigned short m_port;
 
 	static unsigned short GetDefaultPort(Protocol protocol);
+	unsigned short ParsePort(const std::string & portStr, Protocol protocol);
+	void ExtractUrlComponents(const std::string & url, std::string & domain, std::string & portStr, std::string & document, Protocol & protocol);
+	void SetUrlComponents(const std::string & domain, const std::string & document, Protocol protocol, unsigned short port);
+	std::string AddLeadingSlashIfNeeded(const std::string& document);
 };

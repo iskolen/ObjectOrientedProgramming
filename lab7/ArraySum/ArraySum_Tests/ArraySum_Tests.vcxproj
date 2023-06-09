@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{3A13CD44-4913-401F-87E9-6A375B618535}</ProjectGuid>
+    <ProjectGuid>{77AA4461-449A-4B5F-B321-B1AC175B8852}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>ArraySum</RootNamespace>
+    <RootNamespace>ArraySumTests</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -151,10 +151,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ArraySum_Tests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ArraySum.h" />
+    <ClInclude Include="..\ArraySum\ArraySum.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
