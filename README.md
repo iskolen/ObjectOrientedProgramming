@@ -1,2 +1,2 @@
-# Object_Oriented_Programming
+# ObjectOrientedProgramming
  Object Oriented Programming course
